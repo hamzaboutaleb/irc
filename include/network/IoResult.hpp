@@ -1,13 +1,13 @@
 #pragma once
-#include <stddef.h>
+#include <sys/types.h>
 #include "IoStatus.hpp"
 
 class IoResult
 {
 public:
   IoStatus status;
-  size_t bytes;
+  ssize_t bytes;
   int err;
 
-  IoResult(IoStatus status, size_t bytes, int err);
+  IoResult(IoStatus status, ssize_t bytes, int err);
 };

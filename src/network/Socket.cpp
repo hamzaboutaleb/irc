@@ -87,7 +87,7 @@ IoResult Socket::send(const void *buf, size_t len)
 {
   ssize_t n = ::send(_fd, buf, len, 0);
   if (n > 0)
-    return IoResult(IO_OK, static_cast<size_t>(n), 0);
+    return IoResult(IO_OK, n, 0);
   if (n == 0)
     return IoResult(IO_CLOSED, 0, 0);
   if (errno == EAGAIN || errno == EWOULDBLOCK)
