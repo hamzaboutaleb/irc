@@ -77,7 +77,7 @@ void Socket::listen(int backlog) // queue size
 
 Socket *Socket::accept()
 {
-  int clientFd = ::accept(_fd, NULL, NULL);
+  int clientFd = ::accept(_fd, NULL, NULL); // TODO: might change later if we need
   if (clientFd == -1)
     throw std::runtime_error(std::strerror(errno));
   return new Socket(clientFd);
