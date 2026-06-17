@@ -3,21 +3,18 @@ CXXFLAGS := -std=c++98 -Wall -Wextra -Werror -Iinclude
 
 BUILD_DIR := build
 OBJS_DIR := $(BUILD_DIR)/objs
-BIN_DIR := $(BUILD_DIR)/bin
 
 NAME := irc
 
-SRCS := $(wildcard srcs/*.cpp srcs/**/*.cpp)
-OBJS := $(SRCS:srcs/%.cpp=$(OBJS_DIR)/%.o)
-TARGET := $(BIN_DIR)/$(NAME)
+SRCS := $(wildcard src/*.cpp src/**/*.cpp)
+OBJS := $(SRCS:src/%.cpp=$(OBJS_DIR)/%.o)
 
-all: $(TARGET)
+all: $(NAME)
 
-$(TARGET): $(OBJS)
-	@mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-$(OBJS_DIR)/%.o: srcs/%.cpp
+$(OBJS_DIR)/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
