@@ -10,7 +10,7 @@
 #define MAX_MSG_LENGTH  512
 
 Server::Server(int port, const std::string& password)
-  : _listener(NULL), _port(port), _password(password) {}
+  : _listener(NULL), _port(port), _password(password), _handler(_clients, _password) {}
 
 Server::~Server()
 {
@@ -96,6 +96,7 @@ void Server::_processClient(int fd, const char* data, size_t len)
     std::string raw = client->inBuffer().extractMessage();
     Message     msg = Message::parse(raw);
     std::cout << "fd=" << fd << " " << msg << std::endl;
+    _handler.handle(client, msg);
   }
 }
 
