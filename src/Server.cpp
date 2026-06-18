@@ -73,8 +73,21 @@ void Server::_handleRead(int fd)
   char     buf[512];
   IoResult result = _clients[fd]->socket()->recv(buf, sizeof(buf));
 
-  if (result.status == IO_CLOSED || result.status == IO_ERROR)
+  if (result.status == IO_OK)
+    _processClient(fd, buf, result.bytes);
+  else if (result.status == IO_CLOSED || result.status == IO_ERROR)
     _removeClient(fd);
+}
+
+void Server::_processClient(int fd, const char* data, size_t len)
+{
+  Client* client = _clients[fd];
+  client->inBuffer().append(data, len);
+  while (client->inBuffer().hasMessage())
+  {
+    std::string msg = client->inBuffer().extractMessage();
+    std::cout << "fd=" << fd << " msg: " << msg << std::endl;
+  }
 }
 
 void Server::_removeClient(int fd)
