@@ -56,6 +56,8 @@ void Server::_loop()
         _removeClient(fd);
       else if (ev & EPOLLIN)
         _handleRead(fd);
+      else if (ev & EPOLLOUT)
+        _handleWrite(fd);
     }
   }
 }
@@ -98,6 +100,16 @@ void Server::_processClient(int fd, const char* data, size_t len)
     std::cout << "fd=" << fd << " " << msg << std::endl;
     _handler.handle(client, msg);
   }
+  if (client->hasPendingOutput())
+    _epoll.mod(fd, EPOLLIN | EPOLLOUT);
+}
+
+void Server::_handleWrite(int fd)
+{
+  Client* client = _clients[fd];
+  client->flushOutput();
+  if (!client->hasPendingOutput())
+    _epoll.mod(fd, EPOLLIN);
 }
 
 void Server::_removeClient(int fd)
