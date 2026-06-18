@@ -11,3 +11,8 @@ int Client::fd() const
 {
   return _socket->fd();
 }
+
+Socket* Client::socket() const
+{
+  return _socket;
+}

@@ -9,5 +9,6 @@ public:
   Client(Socket* socket);
   ~Client();
 
-  int fd() const;
+  int     fd()     const;
+  Socket* socket() const;
 };
