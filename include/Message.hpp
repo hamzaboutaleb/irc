@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <ostream>
 
 struct Message
 {
@@ -10,3 +11,5 @@ struct Message
 
   static Message parse(const std::string& raw);
 };
+
+std::ostream& operator<<(std::ostream& os, const Message& msg);

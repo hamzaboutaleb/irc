@@ -1,5 +1,6 @@
 #include "Message.hpp"
 #include <cctype>
+#include <ostream>
 
 static std::string toUpper(const std::string& s)
 {
@@ -58,4 +59,14 @@ Message Message::parse(const std::string& raw)
   }
 
   return msg;
+}
+
+std::ostream& operator<<(std::ostream& os, const Message& msg)
+{
+  os << "prefix=[" << msg.prefix << "] "
+     << "cmd=[" << msg.command << "] "
+     << "params(" << msg.params.size() << "):";
+  for (size_t i = 0; i < msg.params.size(); ++i)
+    os << " [" << msg.params[i] << "]";
+  return os;
 }
