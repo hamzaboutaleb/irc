@@ -19,6 +19,7 @@ public:
   Buffer &inBuffer();
   ClientInfo &info();
   void        send(const std::string &msg);
+  void        tryRegister();
   void        flushOutput();
   bool        hasPendingOutput() const;
 };

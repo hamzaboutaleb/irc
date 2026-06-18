@@ -30,6 +30,7 @@ public:
   bool nickReceived() const;
   bool userReceived() const;
   bool isRegistered() const;
+  bool canRegister() const;
 
   void setNickname(const std::string &nickname);
   void setUsername(const std::string &username);

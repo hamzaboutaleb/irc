@@ -15,6 +15,11 @@ bool ClientInfo::isRegistered() const
   return _state == REGISTERED;
 }
 
+bool ClientInfo::canRegister() const
+{
+  return _passReceived && _nickReceived && _userReceived;
+}
+
 void ClientInfo::setNickname(const std::string &nickname) { _nickname = nickname; }
 void ClientInfo::setUsername(const std::string &username) { _username = username; }
 void ClientInfo::setRealname(const std::string &realname) { _realname = realname; }

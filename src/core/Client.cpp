@@ -1,6 +1,7 @@
 #include "core/Client.hpp"
 #include "core/Buffer.hpp"
 #include "network/IoResult.hpp"
+#include "commands/Replies.hpp"
 
 Client::Client(Socket* socket) : _socket(socket) {}
 
@@ -51,4 +52,12 @@ void Client::flushOutput()
 bool Client::hasPendingOutput() const
 {
   return !_outBuffer.empty();
+}
+
+void Client::tryRegister()
+{
+  if (_info.isRegistered() || !_info.canRegister())
+    return;
+  _info.markRegistered();
+  send(Replies::welcome(_info.nickname(), _info.username(), "localhost"));
 }
