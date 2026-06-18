@@ -9,5 +9,4 @@ public:
 private:
   bool _isValidNick(const std::string &nick) const;
   bool _isNickInUse(const std::string &nick, Context &ctx) const;
-  void _tryRegister(Client *client) const;
 };

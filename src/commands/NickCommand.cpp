@@ -23,34 +23,28 @@ bool NickCommand::_isValidNick(const std::string &nick) const
   return true;
 }
 
+static std::string toLower(const std::string &s)
+{
+  std::string result = s;
+  for (size_t i = 0; i < result.size(); ++i)
+    result[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(result[i])));
+  return result;
+}
+
 bool NickCommand::_isNickInUse(const std::string &nick, Context &ctx) const
 {
   std::map<int, Client *>::iterator it;
   for (it = ctx.clients.begin(); it != ctx.clients.end(); ++it)
   {
-    if (it->second->info().nickname() == nick)
+    if (toLower(it->second->info().nickname()) == toLower(nick))
       return true;
   }
   return false;
 }
 
-void NickCommand::_tryRegister(Client *client) const
-{
-  if (client->info().passReceived() &&
-      client->info().nickReceived() &&
-      client->info().userReceived())
-  {
-    client->info().markRegistered();
-    client->send(Replies::welcome(
-        client->info().nickname(),
-        client->info().username(),
-        "localhost"));
-  }
-}
-
 void NickCommand::execute(Client *client, const Message &msg, Context &ctx)
 {
-  const std::string &nick = client->info().nickname().empty() ? "*" : client->info().nickname();
+  const std::string nick = client->info().nickname().empty() ? "*" : client->info().nickname();
 
   if (msg.params.empty())
   {
@@ -73,8 +67,6 @@ void NickCommand::execute(Client *client, const Message &msg, Context &ctx)
 
   client->info().setNickname(newNick);
   if (!client->info().nickReceived())
-  {
     client->info().markNickReceived();
-    _tryRegister(client);
-  }
+  client->tryRegister();
 }
