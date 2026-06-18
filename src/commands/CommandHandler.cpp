@@ -1,4 +1,5 @@
 #include "commands/CommandHandler.hpp"
+#include "commands/PassCommand.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
@@ -17,7 +18,7 @@ CommandHandler::~CommandHandler()
 
 void CommandHandler::_registerCommands()
 {
-  // commands will be registered here as they are implemented
+  _commands["PASS"] = new PassCommand();
 }
 
 void CommandHandler::handle(Client *client, const Message &msg)
