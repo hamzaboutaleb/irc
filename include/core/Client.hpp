@@ -7,6 +7,7 @@ class Client
 {
   Socket *_socket;
   Buffer _inBuffer;
+  std::string _outBuffer;
   ClientInfo _info;
 
 public:
@@ -17,4 +18,7 @@ public:
   Socket *socket() const;
   Buffer &inBuffer();
   ClientInfo &info();
+  void        send(const std::string &msg);
+  void        flushOutput();
+  bool        hasPendingOutput() const;
 };
