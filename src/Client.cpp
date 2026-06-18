@@ -1,4 +1,5 @@
 #include "Client.hpp"
+#include "Buffer.hpp"
 
 Client::Client(Socket* socket) : _socket(socket) {}
 
@@ -15,4 +16,9 @@ int Client::fd() const
 Socket* Client::socket() const
 {
   return _socket;
+}
+
+Buffer& Client::inBuffer()
+{
+  return _inBuffer;
 }
