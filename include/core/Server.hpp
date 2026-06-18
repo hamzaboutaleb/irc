@@ -27,5 +27,6 @@ private:
   void _acceptClient();
   void _handleRead(int fd);
   void _processClient(int fd, const char *data, size_t len);
+  void _handleWrite(int fd);
   void _removeClient(int fd);
 };
