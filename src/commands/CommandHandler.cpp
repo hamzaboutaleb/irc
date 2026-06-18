@@ -1,6 +1,7 @@
 #include "commands/CommandHandler.hpp"
 #include "commands/PassCommand.hpp"
 #include "commands/NickCommand.hpp"
+#include "commands/UserCommand.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
@@ -21,6 +22,7 @@ void CommandHandler::_registerCommands()
 {
   _commands["PASS"] = new PassCommand();
   _commands["NICK"] = new NickCommand();
+  _commands["USER"] = new UserCommand();
 }
 
 void CommandHandler::handle(Client *client, const Message &msg)
