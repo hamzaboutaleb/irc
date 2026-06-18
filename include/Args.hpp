@@ -3,8 +3,8 @@
 
 struct Args
 {
-  int         port;
+  int port;
   std::string password;
 };
 
-Args parseArgs(int argc, char** argv);
+Args parseArgs(int argc, char **argv);

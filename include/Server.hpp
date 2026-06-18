@@ -7,14 +7,14 @@
 
 class Server
 {
-  Socket*                 _listener;
-  Epoll                   _epoll;
-  std::map<int, Client*>  _clients;
-  int                     _port;
-  std::string             _password;
+  Socket *_listener;
+  Epoll _epoll;
+  std::map<int, Client *> _clients;
+  int _port;
+  std::string _password;
 
 public:
-  Server(int port, const std::string& password);
+  Server(int port, const std::string &password);
   ~Server();
 
   void start();
@@ -24,6 +24,6 @@ private:
   void _loop();
   void _acceptClient();
   void _handleRead(int fd);
-  void _processClient(int fd, const char* data, size_t len);
+  void _processClient(int fd, const char *data, size_t len);
   void _removeClient(int fd);
 };

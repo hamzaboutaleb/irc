@@ -5,11 +5,11 @@
 
 struct Message
 {
-  std::string              prefix;
-  std::string              command;
+  std::string prefix;
+  std::string command;
   std::vector<std::string> params;
 
-  static Message parse(const std::string& raw);
+  static Message parse(const std::string &raw);
 };
 
-std::ostream& operator<<(std::ostream& os, const Message& msg);
+std::ostream &operator<<(std::ostream &os, const Message &msg);
