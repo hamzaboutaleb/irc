@@ -17,3 +17,8 @@ std::string Buffer::extractMessage()
   _data.erase(0, pos + 2);
   return message;
 }
+
+size_t Buffer::size() const
+{
+  return _data.size();
+}
