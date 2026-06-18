@@ -1,12 +1,14 @@
 #include "Args.hpp"
+#include "Server.hpp"
 #include <iostream>
 
 int main(int argc, char** argv)
 {
   try
   {
-    Args args = parseArgs(argc, argv);
-    (void)args;
+    Args   args = parseArgs(argc, argv);
+    Server server(args.port, args.password);
+    server.start();
   }
   catch (const std::exception& e)
   {
