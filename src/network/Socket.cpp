@@ -40,7 +40,7 @@ Socket *Socket::createTcp()
   if (fd == -1)
     throw std::runtime_error(std::strerror(errno));
 
-  int opt = 1; // for setting resuaddr. when program shutdown we can resue immediatly
+  int opt = 1; // for setting resuaddr. when program shutdown we can resue port immediatly
   if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
   {
     close(fd);
