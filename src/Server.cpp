@@ -1,4 +1,5 @@
 #include "Server.hpp"
+#include "Message.hpp"
 #include <sys/epoll.h>
 #include <stdexcept>
 #include <cerrno>
@@ -85,8 +86,15 @@ void Server::_processClient(int fd, const char* data, size_t len)
   client->inBuffer().append(data, len);
   while (client->inBuffer().hasMessage())
   {
-    std::string msg = client->inBuffer().extractMessage();
-    std::cout << "fd=" << fd << " msg: " << msg << std::endl;
+    std::string raw = client->inBuffer().extractMessage();
+    Message     msg = Message::parse(raw);
+    std::cout << "fd=" << fd
+              << " cmd=" << msg.command
+              << " prefix=" << msg.prefix
+              << " params(" << msg.params.size() << "):";
+    for (size_t i = 0; i < msg.params.size(); ++i)
+      std::cout << " [" << msg.params[i] << "]";
+    std::cout << std::endl;
   }
 }
 
