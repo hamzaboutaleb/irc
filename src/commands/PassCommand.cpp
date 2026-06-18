@@ -7,20 +7,17 @@ void PassCommand::execute(Client *client, const Message &msg, Context &ctx)
 
   if (client->info().isRegistered() || client->info().passReceived())
   {
-    std::string reply = Replies::alreadyRegistered(nick);
-    client->socket()->send(reply.c_str(), reply.size());
+    client->send(Replies::alreadyRegistered(nick));
     return;
   }
   if (msg.params.empty())
   {
-    std::string reply = Replies::needMoreParams(nick, "PASS");
-    client->socket()->send(reply.c_str(), reply.size());
+    client->send(Replies::needMoreParams(nick, "PASS"));
     return;
   }
   if (msg.params[0] != ctx.password)
   {
-    std::string reply = Replies::passwdMismatch(nick);
-    client->socket()->send(reply.c_str(), reply.size());
+    client->send(Replies::passwdMismatch(nick));
     return;
   }
   client->info().markPassReceived();
