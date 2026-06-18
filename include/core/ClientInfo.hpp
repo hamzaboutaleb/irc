@@ -15,6 +15,8 @@ class ClientInfo
   std::string _realname;
   bool _isOper;
   bool _passReceived;
+  bool _nickReceived;
+  bool _userReceived;
 
 public:
   ClientInfo();
@@ -25,12 +27,16 @@ public:
   const std::string &realname() const;
   bool isOper() const;
   bool passReceived() const;
+  bool nickReceived() const;
+  bool userReceived() const;
   bool isRegistered() const;
 
   void setNickname(const std::string &nickname);
   void setUsername(const std::string &username);
   void setRealname(const std::string &realname);
   void markPassReceived();
+  void markNickReceived();
+  void markUserReceived();
   void markRegistered();
   void promoteToOper();
 };
