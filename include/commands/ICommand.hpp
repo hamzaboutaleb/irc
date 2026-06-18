@@ -1,7 +1,7 @@
 #pragma once
-#include "Client.hpp"
-#include "Message.hpp"
-#include "Context.hpp"
+#include "core/Client.hpp"
+#include "core/Message.hpp"
+#include "commands/Context.hpp"
 
 class ICommand
 {

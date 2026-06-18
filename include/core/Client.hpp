@@ -1,7 +1,7 @@
 #pragma once
 #include "network/Socket.hpp"
-#include "Buffer.hpp"
-#include "ClientInfo.hpp"
+#include "core/Buffer.hpp"
+#include "core/ClientInfo.hpp"
 
 class Client
 {

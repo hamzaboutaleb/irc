@@ -1,4 +1,4 @@
-#include "ClientInfo.hpp"
+#include "core/ClientInfo.hpp"
 
 ClientInfo::ClientInfo()
     : _state(CONNECTING), _isOper(false), _passReceived(false) {}

@@ -1,4 +1,4 @@
-#include "CommandHandler.hpp"
+#include "commands/CommandHandler.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,

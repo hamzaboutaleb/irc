@@ -1,8 +1,8 @@
 #pragma once
-#include "ICommand.hpp"
-#include "Context.hpp"
-#include "Message.hpp"
-#include "Client.hpp"
+#include "commands/ICommand.hpp"
+#include "commands/Context.hpp"
+#include "core/Message.hpp"
+#include "core/Client.hpp"
 #include <map>
 #include <string>
 

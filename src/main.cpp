@@ -1,5 +1,5 @@
-#include "Args.hpp"
-#include "Server.hpp"
+#include "core/Args.hpp"
+#include "core/Server.hpp"
 #include <iostream>
 
 int main(int argc, char** argv)

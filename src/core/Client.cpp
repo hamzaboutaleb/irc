@@ -1,5 +1,5 @@
-#include "Client.hpp"
-#include "Buffer.hpp"
+#include "core/Client.hpp"
+#include "core/Buffer.hpp"
 
 Client::Client(Socket* socket) : _socket(socket) {}
 

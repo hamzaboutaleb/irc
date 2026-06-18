@@ -1,8 +1,8 @@
 #pragma once
 #include "network/Socket.hpp"
 #include "network/Epoll.hpp"
-#include "Client.hpp"
-#include "CommandHandler.hpp"
+#include "core/Client.hpp"
+#include "commands/CommandHandler.hpp"
 #include <map>
 #include <string>
 

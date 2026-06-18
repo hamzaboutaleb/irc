@@ -1,5 +1,5 @@
-#include "Server.hpp"
-#include "Message.hpp"
+#include "core/Server.hpp"
+#include "core/Message.hpp"
 #include <sys/epoll.h>
 #include <stdexcept>
 #include <cerrno>
