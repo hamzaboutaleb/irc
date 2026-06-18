@@ -6,7 +6,8 @@
 #include <cstring>
 #include <iostream>
 
-#define MAX_EVENTS 64
+#define MAX_EVENTS      64
+#define MAX_MSG_LENGTH  512
 
 Server::Server(int port, const std::string& password)
   : _listener(NULL), _port(port), _password(password) {}
@@ -62,7 +63,8 @@ void Server::_loop()
 void Server::_acceptClient()
 {
   Socket* clientSocket = _listener->accept();
-  clientSocket->setNonBlocking();
+  try { clientSocket->setNonBlocking(); }
+  catch (...) { delete clientSocket; throw; }
   int fd = clientSocket->fd();
   _clients[fd] = new Client(clientSocket);
   _epoll.add(fd, EPOLLIN);
@@ -71,7 +73,7 @@ void Server::_acceptClient()
 
 void Server::_handleRead(int fd)
 {
-  char     buf[512];
+  char     buf[MAX_MSG_LENGTH];
   IoResult result = _clients[fd]->socket()->recv(buf, sizeof(buf));
 
   if (result.status == IO_OK)
@@ -84,17 +86,16 @@ void Server::_processClient(int fd, const char* data, size_t len)
 {
   Client* client = _clients[fd];
   client->inBuffer().append(data, len);
+  if (!client->inBuffer().hasMessage() && client->inBuffer().size() > MAX_MSG_LENGTH)
+  {
+    _removeClient(fd);
+    return;
+  }
   while (client->inBuffer().hasMessage())
   {
     std::string raw = client->inBuffer().extractMessage();
     Message     msg = Message::parse(raw);
-    std::cout << "fd=" << fd
-              << " cmd=" << msg.command
-              << " prefix=" << msg.prefix
-              << " params(" << msg.params.size() << "):";
-    for (size_t i = 0; i < msg.params.size(); ++i)
-      std::cout << " [" << msg.params[i] << "]";
-    std::cout << std::endl;
+    std::cout << "fd=" << fd << " " << msg << std::endl;
   }
 }
 
