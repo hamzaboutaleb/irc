@@ -44,8 +44,8 @@ Message Message::parse(const std::string& raw)
   // step 2: command
   msg.command = toUpper(readUntilSpace(raw, i));
 
-  // step 3: params
-  while (true)
+  // step 3: params (max 15 per RFC 1459)
+  while (msg.params.size() < 15)
   {
     i = skipSpaces(raw, i);
     if (i >= raw.size())
