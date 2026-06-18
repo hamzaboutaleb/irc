@@ -22,3 +22,8 @@ Buffer& Client::inBuffer()
 {
   return _inBuffer;
 }
+
+ClientInfo& Client::info()
+{
+  return _info;
+}
