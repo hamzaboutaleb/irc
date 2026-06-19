@@ -5,6 +5,7 @@
 #include "commands/PingCommand.hpp"
 #include "commands/JoinCommand.hpp"
 #include "commands/PrivmsgCommand.hpp"
+#include "commands/PartCommand.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
@@ -30,6 +31,7 @@ void CommandHandler::_registerCommands()
   _commands["PING"] = new PingCommand();
   _commands["JOIN"] = new JoinCommand();
   _commands["PRIVMSG"] = new PrivmsgCommand();
+  _commands["PART"] = new PartCommand();
 }
 
 void CommandHandler::handle(Client *client, const Message &msg)

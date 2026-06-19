@@ -44,6 +44,11 @@ namespace Replies
     return ":" SERVER " 431 * :No nickname given\r\n";
   }
 
+  std::string notOnChannel(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 442 " + nick + " " + channel + " :You're not on that channel\r\n";
+  }
+
   std::string noSuchNick(const std::string &nick, const std::string &target)
   {
     return ":" SERVER " 401 " + nick + " " + target + " :No such nick\r\n";
