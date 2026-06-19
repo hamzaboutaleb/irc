@@ -11,4 +11,15 @@ namespace Replies
   std::string erroneusNickname(const std::string &nick);
   std::string nicknameInUse(const std::string &nick);
   std::string noNicknameGiven();
+
+  // channel replies
+  std::string noSuchChannel(const std::string &nick, const std::string &channel);
+  std::string badChannelKey(const std::string &nick, const std::string &channel);
+  std::string channelIsFull(const std::string &nick, const std::string &channel);
+  std::string inviteOnlyChan(const std::string &nick, const std::string &channel);
+  std::string chanOpPrivsNeeded(const std::string &nick, const std::string &channel);
+  std::string noTopic(const std::string &nick, const std::string &channel);
+  std::string topic(const std::string &nick, const std::string &channel, const std::string &topic);
+  std::string namesList(const std::string &nick, const std::string &channel, const std::string &names);
+  std::string endOfNames(const std::string &nick, const std::string &channel);
 }

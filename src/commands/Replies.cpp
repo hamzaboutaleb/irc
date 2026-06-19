@@ -43,4 +43,49 @@ namespace Replies
   {
     return ":" SERVER " 431 * :No nickname given\r\n";
   }
+
+  std::string noSuchChannel(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 403 " + nick + " " + channel + " :No such channel\r\n";
+  }
+
+  std::string badChannelKey(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 475 " + nick + " " + channel + " :Cannot join channel (+k)\r\n";
+  }
+
+  std::string channelIsFull(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 471 " + nick + " " + channel + " :Cannot join channel (+l)\r\n";
+  }
+
+  std::string inviteOnlyChan(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 473 " + nick + " " + channel + " :Cannot join channel (+i)\r\n";
+  }
+
+  std::string chanOpPrivsNeeded(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 482 " + nick + " " + channel + " :You're not channel operator\r\n";
+  }
+
+  std::string noTopic(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 331 " + nick + " " + channel + " :No topic is set\r\n";
+  }
+
+  std::string topic(const std::string &nick, const std::string &channel, const std::string &t)
+  {
+    return ":" SERVER " 332 " + nick + " " + channel + " :" + t + "\r\n";
+  }
+
+  std::string namesList(const std::string &nick, const std::string &channel, const std::string &names)
+  {
+    return ":" SERVER " 353 " + nick + " = " + channel + " :" + names + "\r\n";
+  }
+
+  std::string endOfNames(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 366 " + nick + " " + channel + " :End of /NAMES list\r\n";
+  }
 }
