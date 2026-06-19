@@ -2,6 +2,7 @@
 #include "commands/Context.hpp"
 #include "commands/Replies.hpp"
 #include "core/Channel.hpp"
+#include "core/Config.hpp"
 
 void PartCommand::execute(Client *client, const Message &msg, Context &ctx)
 {
@@ -36,7 +37,7 @@ void PartCommand::execute(Client *client, const Message &msg, Context &ctx)
   }
 
   std::string partMsg = ":" + nick + "!" + client->info().username() +
-                        "@localhost PART " + name;
+                        "@" SERVER_HOST " PART " + name;
   if (!reason.empty())
     partMsg += " :" + reason;
   partMsg += "\r\n";

@@ -1,5 +1,6 @@
 #include "core/Client.hpp"
 #include "core/Buffer.hpp"
+#include "core/Config.hpp"
 #include "network/IoResult.hpp"
 #include "commands/Replies.hpp"
 
@@ -62,5 +63,5 @@ void Client::tryRegister()
   if (_info.isRegistered() || !_info.canRegister())
     return;
   _info.markRegistered();
-  send(Replies::welcome(_info.nickname(), _info.username(), "localhost"));
+  send(Replies::welcome(_info.nickname(), _info.username(), SERVER_HOST));
 }

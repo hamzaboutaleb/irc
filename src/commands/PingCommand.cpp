@@ -1,5 +1,6 @@
 #include "commands/PingCommand.hpp"
 #include "commands/Replies.hpp"
+#include "core/Config.hpp"
 
 void PingCommand::execute(Client *client, const Message &msg, Context &ctx)
 {
@@ -9,5 +10,5 @@ void PingCommand::execute(Client *client, const Message &msg, Context &ctx)
     client->send(Replies::needMoreParams(client->info().nickname(), "PING"));
     return;
   }
-  client->send(":localhost PONG localhost :" + msg.params[0] + "\r\n");
+  client->send(":" SERVER_HOST " PONG " SERVER_HOST " :" + msg.params[0] + "\r\n");
 }

@@ -2,11 +2,12 @@
 #include "commands/Context.hpp"
 #include "commands/Replies.hpp"
 #include "core/Channel.hpp"
+#include "core/Config.hpp"
 
 static std::string makePrefix(Client *client)
 {
   return ":" + client->info().nickname() + "!" +
-         client->info().username() + "@localhost";
+         client->info().username() + "@" SERVER_HOST;
 }
 
 void PrivmsgCommand::_toChannel(Client *client, const std::string &target,

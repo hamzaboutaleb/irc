@@ -1,6 +1,7 @@
 #include "commands/JoinCommand.hpp"
 #include "commands/Replies.hpp"
 #include "core/Channel.hpp"
+#include "core/Config.hpp"
 
 bool JoinCommand::_isValidChannelName(const std::string &name) const
 {
@@ -23,7 +24,7 @@ void JoinCommand::_sendJoinReplies(Client *client, Channel *channel) const
   const std::string &user = client->info().username();
 
   // JOIN confirmation broadcast to all including the joiner
-  std::string joinMsg = ":" + nick + "!" + user + "@localhost JOIN " + channel->name() + "\r\n";
+  std::string joinMsg = ":" + nick + "!" + user + "@" SERVER_HOST " JOIN " + channel->name() + "\r\n";
   channel->broadcast(joinMsg, NULL);
 
   // topic
