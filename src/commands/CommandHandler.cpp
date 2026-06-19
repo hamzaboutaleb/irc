@@ -3,6 +3,7 @@
 #include "commands/NickCommand.hpp"
 #include "commands/UserCommand.hpp"
 #include "commands/PingCommand.hpp"
+#include "commands/JoinCommand.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
@@ -26,6 +27,7 @@ void CommandHandler::_registerCommands()
   _commands["NICK"] = new NickCommand();
   _commands["USER"] = new UserCommand();
   _commands["PING"] = new PingCommand();
+  _commands["JOIN"] = new JoinCommand();
 }
 
 void CommandHandler::handle(Client *client, const Message &msg)
