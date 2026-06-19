@@ -44,6 +44,21 @@ namespace Replies
     return ":" SERVER " 431 * :No nickname given\r\n";
   }
 
+  std::string noSuchNick(const std::string &nick, const std::string &target)
+  {
+    return ":" SERVER " 401 " + nick + " " + target + " :No such nick\r\n";
+  }
+
+  std::string noTextToSend(const std::string &nick)
+  {
+    return ":" SERVER " 412 " + nick + " :No text to send\r\n";
+  }
+
+  std::string cannotSendToChan(const std::string &nick, const std::string &channel)
+  {
+    return ":" SERVER " 404 " + nick + " " + channel + " :Cannot send to channel\r\n";
+  }
+
   std::string noSuchChannel(const std::string &nick, const std::string &channel)
   {
     return ":" SERVER " 403 " + nick + " " + channel + " :No such channel\r\n";

@@ -12,6 +12,10 @@ namespace Replies
   std::string nicknameInUse(const std::string &nick);
   std::string noNicknameGiven();
 
+  std::string noSuchNick(const std::string &nick, const std::string &target);
+  std::string noTextToSend(const std::string &nick);
+  std::string cannotSendToChan(const std::string &nick, const std::string &channel);
+
   // channel replies
   std::string noSuchChannel(const std::string &nick, const std::string &channel);
   std::string badChannelKey(const std::string &nick, const std::string &channel);
