@@ -8,6 +8,10 @@
 class Channel
 {
   std::string                    _name;
+  std::string                    _topic;
+  std::string                    _key;
+  int                            _limit;
+  bool                           _inviteOnly;
   std::map<Client*, ChannelRole> _members;
 
 public:
@@ -23,6 +27,15 @@ public:
   void        broadcast(const std::string &msg, Client *exclude);
 
   const std::string &name() const;
+  const std::string &topic() const;
+  const std::string &key() const;
+  int                limit() const;
+  bool               isInviteOnly() const;
   int                memberCount() const;
   const std::map<Client*, ChannelRole> &members() const;
+
+  void setTopic(const std::string &topic);
+  void setKey(const std::string &key);
+  void setLimit(int limit);
+  void setInviteOnly(bool val);
 };
