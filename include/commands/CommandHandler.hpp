@@ -1,6 +1,7 @@
 #pragma once
 #include "commands/ICommand.hpp"
 #include "commands/Context.hpp"
+#include "core/Channel.hpp"
 #include "core/Message.hpp"
 #include "core/Client.hpp"
 #include <map>
@@ -13,6 +14,7 @@ class CommandHandler
 
 public:
   CommandHandler(std::map<int, Client *> &clients,
+                 std::map<std::string, Channel *> &channels,
                  const std::string &password);
   ~CommandHandler();
 

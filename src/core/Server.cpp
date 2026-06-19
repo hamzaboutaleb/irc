@@ -10,7 +10,7 @@
 #define MAX_MSG_LENGTH  512
 
 Server::Server(int port, const std::string& password)
-  : _listener(NULL), _port(port), _password(password), _handler(_clients, _password) {}
+  : _listener(NULL), _port(port), _password(password), _handler(_clients, _channels, _password) {}
 
 Server::~Server()
 {
@@ -33,6 +33,11 @@ void Server::stop()
   for (it = _clients.begin(); it != _clients.end(); ++it)
     delete it->second;
   _clients.clear();
+
+  std::map<std::string, Channel*>::iterator ch;
+  for (ch = _channels.begin(); ch != _channels.end(); ++ch)
+    delete ch->second;
+  _channels.clear();
 
   delete _listener;
   _listener = NULL;

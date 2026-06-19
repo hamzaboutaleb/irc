@@ -6,8 +6,9 @@
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
+                               std::map<std::string, Channel *> &channels,
                                const std::string &password)
-    : _ctx(clients, password)
+    : _ctx(clients, channels, password)
 {
   _registerCommands();
 }

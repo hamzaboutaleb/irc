@@ -2,6 +2,7 @@
 #include "network/Socket.hpp"
 #include "network/Epoll.hpp"
 #include "core/Client.hpp"
+#include "core/Channel.hpp"
 #include "commands/CommandHandler.hpp"
 #include <map>
 #include <string>
@@ -11,6 +12,7 @@ class Server
   Socket *_listener;
   Epoll _epoll;
   std::map<int, Client *> _clients;
+  std::map<std::string, Channel *> _channels;
   int _port;
   std::string _password;
   CommandHandler _handler;
