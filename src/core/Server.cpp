@@ -43,6 +43,19 @@ void Server::stop()
   _listener = NULL;
 }
 
+void Server::_scheduleRemoval(int fd)
+{
+  _pendingRemoval.insert(fd);
+}
+
+void Server::_flushRemovals()
+{
+  std::set<int>::iterator it;
+  for (it = _pendingRemoval.begin(); it != _pendingRemoval.end(); ++it)
+    _removeClient(*it);
+  _pendingRemoval.clear();
+}
+
 void Server::_loop()
 {
   epoll_event events[MAX_EVENTS];
@@ -55,15 +68,18 @@ void Server::_loop()
       int fd = events[i].data.fd;
       uint32_t ev = events[i].events;
 
+      if (_pendingRemoval.count(fd))
+        continue;
       if (fd == _listener->fd())
         _acceptClient();
       else if (ev & (EPOLLHUP | EPOLLERR))
-        _removeClient(fd);
+        _scheduleRemoval(fd);
       else if (ev & EPOLLIN)
         _handleRead(fd);
       else if (ev & EPOLLOUT)
         _handleWrite(fd);
     }
+    _flushRemovals();
   }
 }
 
@@ -93,7 +109,7 @@ void Server::_handleRead(int fd)
   if (result.status == IO_OK)
     _processClient(fd, buf, result.bytes);
   else if (result.status == IO_CLOSED || result.status == IO_ERROR)
-    _removeClient(fd);
+    _scheduleRemoval(fd);
 }
 
 void Server::_processClient(int fd, const char *data, size_t len)
@@ -102,11 +118,13 @@ void Server::_processClient(int fd, const char *data, size_t len)
   client->inBuffer().append(data, len);
   if (!client->inBuffer().hasMessage() && client->inBuffer().size() > MAX_MSG_LENGTH)
   {
-    _removeClient(fd);
+    _scheduleRemoval(fd);
     return;
   }
   while (client->inBuffer().hasMessage())
   {
+    if (_pendingRemoval.count(fd))
+      break;
     std::string raw = client->inBuffer().extractMessage();
     Message msg = Message::parse(raw);
     std::cout << "fd=" << fd << " " << msg << std::endl;
