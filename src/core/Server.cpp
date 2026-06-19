@@ -6,11 +6,11 @@
 #include <cstring>
 #include <iostream>
 
-#define MAX_EVENTS      64
-#define MAX_MSG_LENGTH  512
+#define MAX_EVENTS 64
+#define MAX_MSG_LENGTH 512
 
-Server::Server(int port, const std::string& password)
-  : _listener(NULL), _port(port), _password(password), _handler(_clients, _channels, _password) {}
+Server::Server(int port, const std::string &password)
+    : _listener(NULL), _port(port), _password(password), _handler(_clients, _channels, _password) {}
 
 Server::~Server()
 {
@@ -29,12 +29,12 @@ void Server::start()
 
 void Server::stop()
 {
-  std::map<int, Client*>::iterator it;
+  std::map<int, Client *>::iterator it;
   for (it = _clients.begin(); it != _clients.end(); ++it)
     delete it->second;
   _clients.clear();
 
-  std::map<std::string, Channel*>::iterator ch;
+  std::map<std::string, Channel *>::iterator ch;
   for (ch = _channels.begin(); ch != _channels.end(); ++ch)
     delete ch->second;
   _channels.clear();
@@ -52,7 +52,7 @@ void Server::_loop()
     int n = _epoll.wait(events, MAX_EVENTS);
     for (int i = 0; i < n; ++i)
     {
-      int fd     = events[i].data.fd;
+      int fd = events[i].data.fd;
       uint32_t ev = events[i].events;
 
       if (fd == _listener->fd())
@@ -69,9 +69,16 @@ void Server::_loop()
 
 void Server::_acceptClient()
 {
-  Socket* clientSocket = _listener->accept();
-  try { clientSocket->setNonBlocking(); }
-  catch (...) { delete clientSocket; throw; }
+  Socket *clientSocket = _listener->accept();
+  try
+  {
+    clientSocket->setNonBlocking();
+  }
+  catch (...)
+  {
+    delete clientSocket;
+    throw;
+  }
   int fd = clientSocket->fd();
   _clients[fd] = new Client(clientSocket);
   _epoll.add(fd, EPOLLIN);
@@ -80,7 +87,7 @@ void Server::_acceptClient()
 
 void Server::_handleRead(int fd)
 {
-  char     buf[MAX_MSG_LENGTH];
+  char buf[MAX_MSG_LENGTH];
   IoResult result = _clients[fd]->socket()->recv(buf, sizeof(buf));
 
   if (result.status == IO_OK)
@@ -89,9 +96,9 @@ void Server::_handleRead(int fd)
     _removeClient(fd);
 }
 
-void Server::_processClient(int fd, const char* data, size_t len)
+void Server::_processClient(int fd, const char *data, size_t len)
 {
-  Client* client = _clients[fd];
+  Client *client = _clients[fd];
   client->inBuffer().append(data, len);
   if (!client->inBuffer().hasMessage() && client->inBuffer().size() > MAX_MSG_LENGTH)
   {
@@ -101,17 +108,17 @@ void Server::_processClient(int fd, const char* data, size_t len)
   while (client->inBuffer().hasMessage())
   {
     std::string raw = client->inBuffer().extractMessage();
-    Message     msg = Message::parse(raw);
+    Message msg = Message::parse(raw);
     std::cout << "fd=" << fd << " " << msg << std::endl;
     _handler.handle(client, msg);
   }
   if (client->hasPendingOutput())
-    _epoll.mod(fd, EPOLLIN | EPOLLOUT);
+    _epoll.mod(fd, EPOLLIN | EPOLLOUT); // TODO: fix epollout only work when reach processClient
 }
 
 void Server::_handleWrite(int fd)
 {
-  Client* client = _clients[fd];
+  Client *client = _clients[fd];
   client->flushOutput();
   if (!client->hasPendingOutput())
     _epoll.mod(fd, EPOLLIN);
