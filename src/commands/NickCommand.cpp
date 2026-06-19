@@ -1,5 +1,6 @@
 #include "commands/NickCommand.hpp"
 #include "commands/Replies.hpp"
+#include "commands/Context.hpp"
 #include <cctype>
 
 static bool isSpecial(char c)
@@ -23,25 +24,6 @@ bool NickCommand::_isValidNick(const std::string &nick) const
   return true;
 }
 
-static std::string toLower(const std::string &s)
-{
-  std::string result = s;
-  for (size_t i = 0; i < result.size(); ++i)
-    result[i] = static_cast<char>(std::tolower(static_cast<unsigned char>(result[i])));
-  return result;
-}
-
-bool NickCommand::_isNickInUse(const std::string &nick, Context &ctx) const
-{
-  std::map<int, Client *>::iterator it;
-  for (it = ctx.clients.begin(); it != ctx.clients.end(); ++it)
-  {
-    if (toLower(it->second->info().nickname()) == toLower(nick))
-      return true;
-  }
-  return false;
-}
-
 void NickCommand::execute(Client *client, const Message &msg, Context &ctx)
 {
   const std::string nick = client->info().nickname().empty() ? "*" : client->info().nickname();
@@ -59,7 +41,7 @@ void NickCommand::execute(Client *client, const Message &msg, Context &ctx)
     client->send(Replies::erroneusNickname(nick));
     return;
   }
-  if (_isNickInUse(newNick, ctx))
+  if (ctx.findClient(newNick))
   {
     client->send(Replies::nicknameInUse(newNick));
     return;

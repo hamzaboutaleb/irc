@@ -13,4 +13,6 @@ struct Context
   Context(std::map<int, Client *> &clients,
           std::map<std::string, Channel *> &channels,
           const std::string &password);
+
+  Client *findClient(const std::string &nick) const;
 };
