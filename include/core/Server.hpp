@@ -10,7 +10,6 @@
 class Server
 {
   Socket *_listener;
-  Epoll _epoll;
   std::map<int, Client *> _clients;
   std::map<std::string, Channel *> _channels;
   int _port;

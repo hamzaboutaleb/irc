@@ -23,7 +23,7 @@ void Server::start()
   _listener->setNonBlocking();
   _listener->bind(_port);
   _listener->listen(128);
-  _epoll.add(_listener->fd(), EPOLLIN);
+  Epoll::instance().add(_listener->fd(), EPOLLIN);
   _loop();
 }
 
@@ -49,7 +49,7 @@ void Server::_loop()
 
   while (true)
   {
-    int n = _epoll.wait(events, MAX_EVENTS);
+    int n = Epoll::instance().wait(events, MAX_EVENTS);
     for (int i = 0; i < n; ++i)
     {
       int fd = events[i].data.fd;
@@ -81,7 +81,7 @@ void Server::_acceptClient()
   }
   int fd = clientSocket->fd();
   _clients[fd] = new Client(clientSocket);
-  _epoll.add(fd, EPOLLIN);
+  Epoll::instance().add(fd, EPOLLIN);
   std::cout << "client connected: fd=" << fd << std::endl;
 }
 
@@ -113,7 +113,7 @@ void Server::_processClient(int fd, const char *data, size_t len)
     _handler.handle(client, msg);
   }
   if (client->hasPendingOutput())
-    _epoll.mod(fd, EPOLLIN | EPOLLOUT); // TODO: fix epollout only work when reach processClient
+    Epoll::instance().mod(fd, EPOLLIN | EPOLLOUT); // TODO: fix epollout only work when reach processClient
 }
 
 void Server::_handleWrite(int fd)
@@ -121,12 +121,12 @@ void Server::_handleWrite(int fd)
   Client *client = _clients[fd];
   client->flushOutput();
   if (!client->hasPendingOutput())
-    _epoll.mod(fd, EPOLLIN);
+    Epoll::instance().mod(fd, EPOLLIN);
 }
 
 void Server::_removeClient(int fd)
 {
-  _epoll.del(fd);
+  Epoll::instance().del(fd);
   delete _clients[fd];
   _clients.erase(fd);
   std::cout << "client disconnected: fd=" << fd << std::endl;

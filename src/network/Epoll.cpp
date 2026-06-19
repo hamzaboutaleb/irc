@@ -4,6 +4,12 @@
 #include <cstring>
 #include <stdexcept>
 
+Epoll &Epoll::instance()
+{
+  static Epoll epoll;
+  return epoll;
+}
+
 Epoll::Epoll()
 {
   _fd = epoll_create1(0);
