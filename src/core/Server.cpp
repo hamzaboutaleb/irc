@@ -121,8 +121,30 @@ void Server::_handleWrite(int fd)
 
 void Server::_removeClient(int fd)
 {
+  Client *client = _clients[fd];
+
+  std::map<std::string, Channel *>::iterator it = _channels.begin();
+  while (it != _channels.end())
+  {
+    Channel *channel = it->second;
+    if (channel->hasMember(client))
+    {
+      channel->removeMember(client);
+      if (channel->memberCount() == 0)
+      {
+        std::map<std::string, Channel *>::iterator next = it;
+        ++next;
+        delete channel;
+        _channels.erase(it);
+        it = next;
+        continue;
+      }
+    }
+    ++it;
+  }
+
   Epoll::instance().del(fd);
-  delete _clients[fd];
+  delete client;
   _clients.erase(fd);
   std::cout << "client disconnected: fd=" << fd << std::endl;
 }
