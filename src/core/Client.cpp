@@ -33,6 +33,7 @@ ClientInfo& Client::info()
 void Client::send(const std::string &msg)
 {
   _outBuffer += msg;
+  flushOutput();
 }
 
 void Client::flushOutput()
@@ -42,11 +43,13 @@ void Client::flushOutput()
     IoResult result = _socket->send(_outBuffer.c_str(), _outBuffer.size());
     if (result.status == IO_OK)
       _outBuffer.erase(0, result.bytes);
-    else if (result.status == IO_WOULDBLOCK)
-      break;
     else
       break;
   }
+  if (_outBuffer.empty())
+    Epoll::instance().mod(_socket->fd(), EPOLLIN);
+  else
+    Epoll::instance().mod(_socket->fd(), EPOLLIN | EPOLLOUT);
 }
 
 bool Client::hasPendingOutput() const

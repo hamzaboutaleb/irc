@@ -112,16 +112,11 @@ void Server::_processClient(int fd, const char *data, size_t len)
     std::cout << "fd=" << fd << " " << msg << std::endl;
     _handler.handle(client, msg);
   }
-  if (client->hasPendingOutput())
-    Epoll::instance().mod(fd, EPOLLIN | EPOLLOUT); // TODO: fix epollout only work when reach processClient
 }
 
 void Server::_handleWrite(int fd)
 {
-  Client *client = _clients[fd];
-  client->flushOutput();
-  if (!client->hasPendingOutput())
-    Epoll::instance().mod(fd, EPOLLIN);
+  _clients[fd]->flushOutput();
 }
 
 void Server::_removeClient(int fd)

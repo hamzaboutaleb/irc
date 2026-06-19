@@ -1,5 +1,6 @@
 #pragma once
 #include "network/Socket.hpp"
+#include "network/Epoll.hpp"
 #include "core/Buffer.hpp"
 #include "core/ClientInfo.hpp"
 
