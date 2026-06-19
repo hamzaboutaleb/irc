@@ -15,4 +15,5 @@ struct Context
           const std::string &password);
 
   Client *findClient(const std::string &nick) const;
+  void    removeFromChannel(Client *client, Channel *channel);
 };

@@ -14,6 +14,16 @@ Context::Context(std::map<int, Client *> &clients,
                  const std::string &password)
     : clients(clients), channels(channels), password(password) {}
 
+void Context::removeFromChannel(Client *client, Channel *channel)
+{
+  channel->removeMember(client);
+  if (channel->memberCount() == 0)
+  {
+    channels.erase(channel->name());
+    delete channel;
+  }
+}
+
 // TODO: replace with a nick→Client* index in Server for O(log n) lookup
 Client *Context::findClient(const std::string &nick) const
 {

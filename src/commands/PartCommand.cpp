@@ -42,11 +42,5 @@ void PartCommand::execute(Client *client, const Message &msg, Context &ctx)
   partMsg += "\r\n";
 
   channel->broadcast(partMsg, NULL);
-  channel->removeMember(client);
-
-  if (channel->memberCount() == 0)
-  {
-    delete channel;
-    ctx.channels.erase(it);
-  }
+  ctx.removeFromChannel(client, channel);
 }
