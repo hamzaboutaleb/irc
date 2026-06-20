@@ -1,6 +1,7 @@
 #include "network/Socket.hpp"
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <netdb.h>
 #include <fcntl.h>
 #include <unistd.h>
@@ -48,6 +49,24 @@ Socket *Socket::createTcp()
   }
 
   return new Socket(fd);
+}
+/*
+  This option controls the time to remove a zombie socket.
+  It works at the TCP level. After X seconds of idleness, it starts sending
+  a probe every X seconds for N times. If there's no response, it fires
+  EPOLLHUP so that we can handle it.
+*/
+void Socket::setKeepAlive(int idleSecs, int intervalSecs, int probes)
+{
+  int opt = 1;
+  if (setsockopt(_fd, SOL_SOCKET, SO_KEEPALIVE, &opt, sizeof(opt)) == -1)
+    throw std::runtime_error(std::strerror(errno));
+  if (setsockopt(_fd, IPPROTO_TCP, TCP_KEEPIDLE, &idleSecs, sizeof(idleSecs)) == -1)
+    throw std::runtime_error(std::strerror(errno));
+  if (setsockopt(_fd, IPPROTO_TCP, TCP_KEEPINTVL, &intervalSecs, sizeof(intervalSecs)) == -1)
+    throw std::runtime_error(std::strerror(errno));
+  if (setsockopt(_fd, IPPROTO_TCP, TCP_KEEPCNT, &probes, sizeof(probes)) == -1)
+    throw std::runtime_error(std::strerror(errno));
 }
 
 void Socket::setNonBlocking()

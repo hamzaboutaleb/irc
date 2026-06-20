@@ -15,6 +15,7 @@ public:
   static Socket *createTcp();
 
   void setNonBlocking();
+  void setKeepAlive(int idleSecs, int intervalSecs, int probes);
   void bind(int port);
   void listen(int backlog);
   Socket *accept();
