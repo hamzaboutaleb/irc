@@ -4,7 +4,7 @@
 #include "network/IoResult.hpp"
 #include "commands/Replies.hpp"
 
-Client::Client(Socket* socket) : _socket(socket) {}
+Client::Client(Socket* socket) : _socket(socket), _dead(false) {}
 
 Client::~Client()
 {
@@ -57,6 +57,9 @@ bool Client::hasPendingOutput() const
 {
   return !_outBuffer.empty();
 }
+
+void Client::markDead() { _dead = true; }
+bool Client::isDead() const { return _dead; }
 
 void Client::tryRegister()
 {

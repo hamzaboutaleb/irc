@@ -129,6 +129,11 @@ void Server::_processClient(int fd, const char *data, size_t len)
     Message msg = Message::parse(raw);
     std::cout << "fd=" << fd << " " << msg << std::endl;
     _handler.handle(client, msg);
+    if (client->isDead())
+    {
+      _scheduleRemoval(fd);
+      break;
+    }
   }
 }
 

@@ -10,6 +10,7 @@ class Client
   Buffer _inBuffer;
   std::string _outBuffer;
   ClientInfo _info;
+  bool _dead;
 
 public:
   Client(Socket *socket);
@@ -23,4 +24,6 @@ public:
   void        tryRegister();
   void        flushOutput();
   bool        hasPendingOutput() const;
+  void        markDead();
+  bool        isDead() const;
 };
