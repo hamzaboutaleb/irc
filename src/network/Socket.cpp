@@ -55,6 +55,7 @@ Socket *Socket::createTcp()
   It works at the TCP level. After X seconds of idleness, it starts sending
   a probe every X seconds for N times. If there's no response, it fires
   EPOLLHUP so that we can handle it.
+  we dont need it becuase we use PING/PONG
 */
 void Socket::setKeepAlive(int idleSecs, int intervalSecs, int probes)
 {
