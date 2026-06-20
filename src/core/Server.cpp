@@ -1,5 +1,6 @@
 #include "core/Server.hpp"
 #include "core/Message.hpp"
+#include "core/Config.hpp"
 #include <sys/epoll.h>
 #include <stdexcept>
 #include <cerrno>
@@ -22,7 +23,7 @@ void Server::start()
   _listener = Socket::createTcp();
   _listener->setNonBlocking();
   _listener->bind(_port);
-  _listener->listen(128);
+  _listener->listen(LISTEN_BACKLOG);
   Epoll::instance().add(_listener->fd(), EPOLLIN);
   _loop();
 }
