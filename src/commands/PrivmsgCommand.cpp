@@ -69,6 +69,11 @@ void PrivmsgCommand::execute(Client *client, const Message &msg, Context &ctx)
   const std::string &target = msg.params[0];
   const std::string &text   = msg.params[1];
 
+  if (target.empty())
+  {
+    client->send(Replies::noSuchNick(nick, target));
+    return;
+  }
   if (target[0] == '#')
     _toChannel(client, target, text, ctx);
   else

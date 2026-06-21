@@ -4,7 +4,7 @@
 #include "core/Config.hpp"
 #include <cstdlib>
 
-void ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char flag,
+bool ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char flag,
                              const std::vector<std::string> &params, size_t &paramIdx, Context &ctx)
 {
   const std::string &nick     = client->info().nickname();
@@ -14,11 +14,11 @@ void ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char f
   {
     case 'i':
       channel->setInviteOnly(sign == '+');
-      break;
+      return true;
 
     case 't':
       channel->setTopicLocked(sign == '+');
-      break;
+      return true;
 
     case 'k':
       if (sign == '+')
@@ -26,13 +26,13 @@ void ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char f
         if (paramIdx >= params.size())
         {
           client->send(Replies::needMoreParams(nick, "MODE"));
-          return;
+          return false;
         }
         channel->setKey(params[paramIdx++]);
       }
       else
         channel->setKey("");
-      break;
+      return true;
 
     case 'l':
       if (sign == '+')
@@ -40,7 +40,7 @@ void ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char f
         if (paramIdx >= params.size())
         {
           client->send(Replies::needMoreParams(nick, "MODE"));
-          return;
+          return false;
         }
         int limit = std::atoi(params[paramIdx++].c_str());
         if (limit > 0)
@@ -48,33 +48,33 @@ void ModeCommand::_applyMode(Client *client, Channel *channel, char sign, char f
       }
       else
         channel->setLimit(0);
-      break;
+      return true;
 
     case 'o':
     {
       if (paramIdx >= params.size())
       {
         client->send(Replies::needMoreParams(nick, "MODE"));
-        return;
+        return false;
       }
       const std::string &targetNick = params[paramIdx++];
       Client            *target     = ctx.findClient(targetNick);
       if (!target)
       {
         client->send(Replies::noSuchNick(nick, targetNick));
-        return;
+        return false;
       }
       if (!channel->hasMember(target))
       {
         client->send(Replies::notOnChannel(nick, chanName));
-        return;
+        return false;
       }
       channel->setRole(target, sign == '+' ? ROLE_OPERATOR : ROLE_MEMBER);
-      break;
+      return true;
     }
 
     default:
-      break;
+      return false;
   }
 }
 
@@ -113,18 +113,22 @@ void ModeCommand::execute(Client *client, const Message &msg, Context &ctx)
   if (msg.params.size() < 2)
     return;
 
-  const std::string &modeStr = msg.params[1];
-  char               sign    = '+';
+  const std::string &modeStr  = msg.params[1];
+  char               sign     = '+';
   size_t             paramIdx = 2;
+  bool               applied  = false;
 
   for (size_t i = 0; i < modeStr.size(); ++i)
   {
     char c = modeStr[i];
     if (c == '+' || c == '-')
       sign = c;
-    else
-      _applyMode(client, channel, sign, c, msg.params, paramIdx, ctx);
+    else if (_applyMode(client, channel, sign, c, msg.params, paramIdx, ctx))
+      applied = true;
   }
+
+  if (!applied)
+    return;
 
   std::string appliedParams;
   for (size_t i = 2; i < paramIdx; ++i)
