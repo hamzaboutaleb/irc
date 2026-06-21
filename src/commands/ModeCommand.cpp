@@ -104,7 +104,7 @@ void ModeCommand::execute(Client *client, const Message &msg, Context &ctx)
 
   Channel *channel = it->second;
 
-  if (!channel->hasPermission(client, PERM_OPERATOR))
+  if (!channel->hasPermission(client, PERM_MODE))
   {
     client->send(Replies::chanOpPrivsNeeded(nick, chanName));
     return;
@@ -125,4 +125,17 @@ void ModeCommand::execute(Client *client, const Message &msg, Context &ctx)
     else
       _applyMode(client, channel, sign, c, msg.params, paramIdx, ctx);
   }
+
+  std::string appliedParams;
+  for (size_t i = 2; i < paramIdx; ++i)
+  {
+    if (i > 2)
+      appliedParams += " ";
+    appliedParams += msg.params[i];
+  }
+
+  channel->broadcast(
+    Replies::modeChange(nick, client->info().username(), chanName, modeStr, appliedParams),
+    NULL
+  );
 }

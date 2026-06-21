@@ -27,4 +27,7 @@ namespace Replies
   std::string topic(const std::string &nick, const std::string &channel, const std::string &topic);
   std::string namesList(const std::string &nick, const std::string &channel, const std::string &names);
   std::string endOfNames(const std::string &nick, const std::string &channel);
+  std::string modeChange(const std::string &nick, const std::string &user,
+                         const std::string &channel, const std::string &modeStr,
+                         const std::string &params);
 }

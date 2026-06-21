@@ -107,4 +107,15 @@ namespace Replies
   {
     return ":" SERVER_HOST "366 " + nick + " " + channel + " :End of /NAMES list\r\n";
   }
+
+  std::string modeChange(const std::string &nick, const std::string &user,
+                         const std::string &channel, const std::string &modeStr,
+                         const std::string &params)
+  {
+    std::string msg = ":" + nick + "!" + user + "@" SERVER_HOST " MODE " + channel + " " + modeStr;
+    if (!params.empty())
+      msg += " " + params;
+    msg += "\r\n";
+    return msg;
+  }
 }
