@@ -64,3 +64,5 @@ void Channel::setKey(const std::string &key)       { _key = key; }
 void Channel::setLimit(int limit)                  { _limit = limit; }
 void Channel::setInviteOnly(bool val)              { _inviteOnly = val; }
 void Channel::setTopicLocked(bool val)             { _topicLocked = val; }
+bool Channel::isInvited(const std::string &nick) const { return _inviteList.count(nick) > 0; }
+void Channel::addInvite(const std::string &nick)       { _inviteList.insert(nick); }

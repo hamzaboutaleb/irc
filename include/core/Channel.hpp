@@ -3,6 +3,7 @@
 #include "core/Permission.hpp"
 #include "core/RoleManager.hpp"
 #include <map>
+#include <set>
 #include <string>
 
 class Channel
@@ -13,6 +14,7 @@ class Channel
   int                            _limit;
   bool                           _inviteOnly;
   bool                           _topicLocked;
+  std::set<std::string>          _inviteList;
   std::map<Client*, ChannelRole> _members;
 
 public:
@@ -33,6 +35,8 @@ public:
   int                limit() const;
   bool               isInviteOnly() const;
   bool               isTopicLocked() const;
+  bool               isInvited(const std::string &nick) const;
+  void               addInvite(const std::string &nick);
   int                memberCount() const;
   const std::map<Client*, ChannelRole> &members() const;
 

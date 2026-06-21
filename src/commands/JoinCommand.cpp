@@ -80,8 +80,7 @@ void JoinCommand::_joinChannel(Client *client, const std::string &name, const st
       client->send(Replies::channelIsFull(nick, name));
       return;
     }
-    // TODO: check invite list when +i is set (needs Channel::isInvited() and _inviteList)
-    if (channel->isInviteOnly())
+    if (channel->isInviteOnly() && !channel->isInvited(nick))
     {
       client->send(Replies::inviteOnlyChan(nick, name));
       return;
