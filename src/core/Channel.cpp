@@ -1,7 +1,7 @@
 #include "core/Channel.hpp"
 
 Channel::Channel(const std::string &name)
-  : _name(name), _limit(0), _inviteOnly(false) {}
+  : _name(name), _limit(0), _inviteOnly(false), _topicLocked(false) {}
 
 void Channel::addMember(Client *client, ChannelRole role)
 {
@@ -54,7 +54,8 @@ const std::string &Channel::name() const        { return _name; }
 const std::string &Channel::topic() const       { return _topic; }
 const std::string &Channel::key() const         { return _key; }
 int                Channel::limit() const       { return _limit; }
-bool               Channel::isInviteOnly() const { return _inviteOnly; }
+bool               Channel::isInviteOnly() const  { return _inviteOnly; }
+bool               Channel::isTopicLocked() const { return _topicLocked; }
 int Channel::memberCount() const                { return static_cast<int>(_members.size()); }
 const std::map<Client*, ChannelRole> &Channel::members() const { return _members; }
 
@@ -62,3 +63,4 @@ void Channel::setTopic(const std::string &topic)  { _topic = topic; }
 void Channel::setKey(const std::string &key)       { _key = key; }
 void Channel::setLimit(int limit)                  { _limit = limit; }
 void Channel::setInviteOnly(bool val)              { _inviteOnly = val; }
+void Channel::setTopicLocked(bool val)             { _topicLocked = val; }

@@ -12,6 +12,7 @@ class Channel
   std::string                    _key;
   int                            _limit;
   bool                           _inviteOnly;
+  bool                           _topicLocked;
   std::map<Client*, ChannelRole> _members;
 
 public:
@@ -31,6 +32,7 @@ public:
   const std::string &key() const;
   int                limit() const;
   bool               isInviteOnly() const;
+  bool               isTopicLocked() const;
   int                memberCount() const;
   const std::map<Client*, ChannelRole> &members() const;
 
@@ -38,4 +40,5 @@ public:
   void setKey(const std::string &key);
   void setLimit(int limit);
   void setInviteOnly(bool val);
+  void setTopicLocked(bool val);
 };
