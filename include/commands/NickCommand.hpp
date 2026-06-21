@@ -8,4 +8,5 @@ public:
 
 private:
   bool _isValidNick(const std::string &nick) const;
+  void _broadcastNickChange(Client *client, const std::string &oldNick, Context &ctx);
 };
