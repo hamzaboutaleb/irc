@@ -108,6 +108,24 @@ namespace Replies
     return ":" SERVER_HOST "366 " + nick + " " + channel + " :End of /NAMES list\r\n";
   }
 
+  std::string inviting(const std::string &nick, const std::string &target,
+                       const std::string &channel)
+  {
+    return ":" SERVER_HOST " 341 " + nick + " " + target + " " + channel + "\r\n";
+  }
+
+  std::string userOnChannel(const std::string &nick, const std::string &target,
+                            const std::string &channel)
+  {
+    return ":" SERVER_HOST " 443 " + nick + " " + target + " " + channel + " :is already on channel\r\n";
+  }
+
+  std::string inviteMsg(const std::string &nick, const std::string &user,
+                        const std::string &target, const std::string &channel)
+  {
+    return ":" + nick + "!" + user + "@" SERVER_HOST " INVITE " + target + " " + channel + "\r\n";
+  }
+
   std::string topicChange(const std::string &nick, const std::string &user,
                           const std::string &channel, const std::string &topic)
   {

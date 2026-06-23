@@ -32,4 +32,10 @@ namespace Replies
                          const std::string &params);
   std::string topicChange(const std::string &nick, const std::string &user,
                           const std::string &channel, const std::string &topic);
+  std::string inviting(const std::string &nick, const std::string &target,
+                       const std::string &channel);
+  std::string userOnChannel(const std::string &nick, const std::string &target,
+                            const std::string &channel);
+  std::string inviteMsg(const std::string &nick, const std::string &user,
+                        const std::string &target, const std::string &channel);
 }
