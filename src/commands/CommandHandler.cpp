@@ -9,6 +9,7 @@
 #include "commands/QuitCommand.hpp"
 #include "commands/ModeCommand.hpp"
 #include "commands/TopicCommand.hpp"
+#include "commands/InviteCommand.hpp"
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
@@ -37,7 +38,8 @@ void CommandHandler::_registerCommands()
   _commands["PART"] = new PartCommand();
   _commands["QUIT"] = new QuitCommand();
   _commands["MODE"]  = new ModeCommand();
-  _commands["TOPIC"] = new TopicCommand();
+  _commands["TOPIC"]  = new TopicCommand();
+  _commands["INVITE"] = new InviteCommand();
 }
 
 void CommandHandler::handle(Client *client, const Message &msg)
