@@ -30,4 +30,6 @@ namespace Replies
   std::string modeChange(const std::string &nick, const std::string &user,
                          const std::string &channel, const std::string &modeStr,
                          const std::string &params);
+  std::string topicChange(const std::string &nick, const std::string &user,
+                          const std::string &channel, const std::string &topic);
 }
