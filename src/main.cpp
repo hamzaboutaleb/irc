@@ -1,9 +1,12 @@
 #include "core/Args.hpp"
 #include "core/Server.hpp"
 #include <iostream>
+#include <signal.h>
 
+// TODO: handle SIGINT/SIGTERM to call server.stop() gracefully before exit
 int main(int argc, char** argv)
 {
+  signal(SIGPIPE, SIG_IGN);
   try
   {
     Args   args = parseArgs(argc, argv);
