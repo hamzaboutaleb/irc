@@ -38,4 +38,6 @@ namespace Replies
                             const std::string &channel);
   std::string inviteMsg(const std::string &nick, const std::string &user,
                         const std::string &target, const std::string &channel);
+  std::string userNotInChannel(const std::string &nick, const std::string &target,
+                               const std::string &channel);
 }

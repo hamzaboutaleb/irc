@@ -126,6 +126,12 @@ namespace Replies
     return ":" + nick + "!" + user + "@" SERVER_HOST " INVITE " + target + " " + channel + "\r\n";
   }
 
+  std::string userNotInChannel(const std::string &nick, const std::string &target,
+                               const std::string &channel)
+  {
+    return ":" SERVER_HOST " 441 " + nick + " " + target + " " + channel + " :They aren't on that channel\r\n";
+  }
+
   std::string topicChange(const std::string &nick, const std::string &user,
                           const std::string &channel, const std::string &topic)
   {
