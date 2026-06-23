@@ -45,7 +45,7 @@ void Channel::broadcast(const std::string &msg, Client *exclude)
   std::map<Client*, ChannelRole>::iterator it;
   for (it = _members.begin(); it != _members.end(); ++it)
   {
-    if (it->first != exclude)
+    if (it->first != exclude && !it->first->isDead())
       it->first->send(msg);
   }
 }
