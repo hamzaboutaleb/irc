@@ -109,9 +109,11 @@ IoResult Socket::send(const void *buf, size_t len)
   if (n > 0)
     return IoResult(IO_OK, n, 0);
   if (n == 0)
-    return IoResult(IO_CLOSED, 0, 0);
+    return IoResult(IO_OK, 0, 0);
   if (errno == EAGAIN || errno == EWOULDBLOCK)
     return IoResult(IO_WOULDBLOCK, 0, errno);
+  if (errno == EPIPE || errno == ECONNRESET)
+    return IoResult(IO_CLOSED, 0, errno);
   return IoResult(IO_ERROR, 0, errno);
 }
 
