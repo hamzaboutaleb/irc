@@ -84,6 +84,8 @@ void Server::_loop()
   }
 }
 
+// TODO: drain accept loop — call accept() until EAGAIN, capped at MAX_ACCEPTS_PER_CYCLE
+//       requires Socket::accept() to return NULL on EAGAIN instead of throwing
 void Server::_acceptClient()
 {
   Socket *clientSocket = _listener->accept();
@@ -113,6 +115,8 @@ void Server::_handleRead(int fd)
     _scheduleRemoval(fd);
 }
 
+// TODO: rate limiter — token bucket per client to prevent flood starvation
+//       bots need higher burst allowance, make rates configurable in Config.hpp
 void Server::_processClient(int fd, const char *data, size_t len)
 {
   Client *client = _clients[fd];
