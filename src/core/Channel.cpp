@@ -1,4 +1,5 @@
 #include "core/Channel.hpp"
+#include "core/IrcString.hpp"
 
 Channel::Channel(const std::string &name)
   : _name(name), _limit(0), _inviteOnly(false), _topicLocked(false) {}
@@ -64,5 +65,5 @@ void Channel::setKey(const std::string &key)       { _key = key; }
 void Channel::setLimit(int limit)                  { _limit = limit; }
 void Channel::setInviteOnly(bool val)              { _inviteOnly = val; }
 void Channel::setTopicLocked(bool val)             { _topicLocked = val; }
-bool Channel::isInvited(const std::string &nick) const { return _inviteList.count(nick) > 0; }
-void Channel::addInvite(const std::string &nick)       { _inviteList.insert(nick); }
+bool Channel::isInvited(const std::string &nick) const { return _inviteList.count(rfcCaseFold(nick)) > 0; }
+void Channel::addInvite(const std::string &nick)       { _inviteList.insert(rfcCaseFold(nick)); }
