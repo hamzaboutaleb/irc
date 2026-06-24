@@ -86,6 +86,8 @@ void JoinCommand::_joinChannel(Client *client, const std::string &name, const st
       return;
     }
     channel->addMember(client, ROLE_MEMBER);
+    channel->removeInvite(nick);   // transient invite is single-use
+
   }
 
   _sendJoinReplies(client, ctx.channels[name]);

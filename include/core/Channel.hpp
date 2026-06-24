@@ -37,6 +37,7 @@ public:
   bool               isTopicLocked() const;
   bool               isInvited(const std::string &nick) const;
   void               addInvite(const std::string &nick);
+  void               removeInvite(const std::string &nick);
   int                memberCount() const;
   const std::map<Client*, ChannelRole> &members() const;
 

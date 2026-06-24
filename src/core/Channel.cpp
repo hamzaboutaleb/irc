@@ -67,3 +67,4 @@ void Channel::setInviteOnly(bool val)              { _inviteOnly = val; }
 void Channel::setTopicLocked(bool val)             { _topicLocked = val; }
 bool Channel::isInvited(const std::string &nick) const { return _inviteList.count(rfcCaseFold(nick)) > 0; }
 void Channel::addInvite(const std::string &nick)       { _inviteList.insert(rfcCaseFold(nick)); }
+void Channel::removeInvite(const std::string &nick)    { _inviteList.erase(rfcCaseFold(nick)); }
