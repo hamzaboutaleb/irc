@@ -22,11 +22,11 @@ public:
   Server(int port, const std::string &password);
   ~Server();
 
-  void start();
+  void start(bool &running);
   void stop();
 
 private:
-  void _loop();
+  void _loop(bool &running);
   void _acceptClient();
   void _handleRead(int fd);
   void _processClient(int fd, const char *data, size_t len);

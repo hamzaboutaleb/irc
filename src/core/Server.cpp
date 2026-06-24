@@ -18,14 +18,14 @@ Server::~Server()
   stop();
 }
 
-void Server::start()
+void Server::start(bool &running)
 {
   _listener = Socket::createTcp();
   _listener->setNonBlocking();
   _listener->bind(_port);
   _listener->listen(LISTEN_BACKLOG);
   Epoll::instance().add(_listener->fd(), EPOLLIN);
-  _loop();
+  _loop(running);
 }
 
 void Server::stop()
@@ -57,11 +57,11 @@ void Server::_flushRemovals()
   _pendingRemoval.clear();
 }
 
-void Server::_loop()
+void Server::_loop(bool &running)
 {
   epoll_event events[MAX_EVENTS];
 
-  while (true)
+  while (running)
   {
     int n = Epoll::instance().wait(events, MAX_EVENTS);
     for (int i = 0; i < n; ++i)
