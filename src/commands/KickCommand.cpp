@@ -21,7 +21,7 @@ void KickCommand::execute(Client *client, const Message &msg, Context &ctx)
 
   const std::string &chanName   = msg.params[0];
   const std::string &targetNick = msg.params[1];
-  const std::string  reason     = msg.params.size() > 2 ? msg.params[2] : nick;
+  const std::string  reason     = msg.params.size() > 2 ? msg.params[2] : targetNick;
 
   ChannelMap::iterator it = ctx.channels.find(chanName);
   if (it == ctx.channels.end())
