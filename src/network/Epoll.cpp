@@ -48,7 +48,7 @@ void Epoll::del(int fd)
 
 int Epoll::wait(epoll_event* events, int maxEvents)
 {
-  int n = epoll_wait(_fd, events, maxEvents, -1);
+  int n = epoll_wait(_fd, events, maxEvents, 1000);
   if (n == -1)
     throw std::runtime_error(std::strerror(errno));
   return n;

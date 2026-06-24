@@ -20,5 +20,12 @@ void PassCommand::execute(Client *client, const Message &msg, Context &ctx)
     client->send(Replies::passwdMismatch(nick));
     return;
   }
+
+  if (client->info().nickReceived() && client->info().userReceived())
+  {
+    client->markDead();
+    return;
+  }
+
   client->info().markPassReceived();
 }
