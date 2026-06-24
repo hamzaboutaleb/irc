@@ -35,7 +35,7 @@ void NickCommand::_broadcastNickChange(Client *client, const std::string &oldNic
   std::set<Client *> recipients;
   recipients.insert(client);
 
-  std::map<std::string, Channel *>::iterator it;
+  ChannelMap::iterator it;
   for (it = ctx.channels.begin(); it != ctx.channels.end(); ++it)
   {
     Channel *channel = it->second;

@@ -14,7 +14,7 @@
 #include <iostream>
 
 CommandHandler::CommandHandler(std::map<int, Client *> &clients,
-                               std::map<std::string, Channel *> &channels,
+                               ChannelMap &channels,
                                const std::string &password)
     : _ctx(clients, channels, password)
 {

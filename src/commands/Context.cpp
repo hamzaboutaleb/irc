@@ -2,7 +2,7 @@
 #include "core/IrcString.hpp"
 
 Context::Context(std::map<int, Client *> &clients,
-                 std::map<std::string, Channel *> &channels,
+                 ChannelMap &channels,
                  const std::string &password)
     : clients(clients), channels(channels), password(password) {}
 

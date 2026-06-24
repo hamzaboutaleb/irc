@@ -14,7 +14,7 @@ void QuitCommand::execute(Client *client, const Message &msg, Context &ctx)
                         " QUIT :" + reason + "\r\n";
 
   std::vector<Channel *> toLeave;
-  std::map<std::string, Channel *>::iterator it;
+  ChannelMap::iterator it;
   for (it = ctx.channels.begin(); it != ctx.channels.end(); ++it)
   {
     if (it->second->hasMember(client))

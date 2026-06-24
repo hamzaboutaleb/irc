@@ -22,7 +22,7 @@ void PartCommand::execute(Client *client, const Message &msg, Context &ctx)
   const std::string &name   = msg.params[0];
   const std::string  reason = msg.params.size() > 1 ? msg.params[1] : "";
 
-  std::map<std::string, Channel *>::iterator it = ctx.channels.find(name);
+  ChannelMap::iterator it = ctx.channels.find(name);
   if (it == ctx.channels.end())
   {
     client->send(Replies::noSuchChannel(nick, name));

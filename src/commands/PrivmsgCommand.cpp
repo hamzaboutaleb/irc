@@ -15,7 +15,7 @@ void PrivmsgCommand::_toChannel(Client *client, const std::string &target,
 {
   const std::string &nick = client->info().nickname();
 
-  std::map<std::string, Channel *>::iterator it = ctx.channels.find(target);
+  ChannelMap::iterator it = ctx.channels.find(target);
   if (it == ctx.channels.end())
   {
     client->send(Replies::noSuchChannel(nick, target));

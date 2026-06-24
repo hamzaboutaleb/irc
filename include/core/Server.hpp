@@ -3,6 +3,7 @@
 #include "network/Epoll.hpp"
 #include "core/Client.hpp"
 #include "core/Channel.hpp"
+#include "core/ChannelMap.hpp"
 #include "commands/CommandHandler.hpp"
 #include <map>
 #include <set>
@@ -12,7 +13,7 @@ class Server
 {
   Socket *_listener;
   std::map<int, Client *> _clients;
-  std::map<std::string, Channel *> _channels;
+  ChannelMap _channels;
   std::set<int> _pendingRemoval;
   int _port;
   std::string _password;

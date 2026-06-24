@@ -21,7 +21,7 @@ void InviteCommand::execute(Client *client, const Message &msg, Context &ctx)
   const std::string &targetNick = msg.params[0];
   const std::string &chanName   = msg.params[1];
 
-  std::map<std::string, Channel *>::iterator it = ctx.channels.find(chanName);
+  ChannelMap::iterator it = ctx.channels.find(chanName);
   if (it == ctx.channels.end())
   {
     client->send(Replies::noSuchChannel(nick, chanName));

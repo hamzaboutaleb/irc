@@ -35,7 +35,7 @@ void Server::stop()
     delete it->second;
   _clients.clear();
 
-  std::map<std::string, Channel *>::iterator ch;
+  ChannelMap::iterator ch;
   for (ch = _channels.begin(); ch != _channels.end(); ++ch)
     delete ch->second;
   _channels.clear();
@@ -151,7 +151,7 @@ void Server::_removeClient(int fd)
 {
   Client *client = _clients[fd];
 
-  std::map<std::string, Channel *>::iterator it = _channels.begin();
+  ChannelMap::iterator it = _channels.begin();
   while (it != _channels.end())
   {
     Channel *channel = it->second;
@@ -160,7 +160,7 @@ void Server::_removeClient(int fd)
       channel->removeMember(client);
       if (channel->memberCount() == 0)
       {
-        std::map<std::string, Channel *>::iterator next = it;
+        ChannelMap::iterator next = it;
         ++next;
         delete channel;
         _channels.erase(it);

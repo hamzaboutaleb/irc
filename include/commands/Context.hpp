@@ -1,17 +1,18 @@
 #pragma once
 #include "core/Client.hpp"
 #include "core/Channel.hpp"
+#include "core/ChannelMap.hpp"
 #include <map>
 #include <string>
 
 struct Context
 {
   std::map<int, Client *> &clients;
-  std::map<std::string, Channel *> &channels;
+  ChannelMap &channels;
   const std::string &password;
 
   Context(std::map<int, Client *> &clients,
-          std::map<std::string, Channel *> &channels,
+          ChannelMap &channels,
           const std::string &password);
 
   Client *findClient(const std::string &nick) const;

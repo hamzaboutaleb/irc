@@ -23,7 +23,7 @@ void KickCommand::execute(Client *client, const Message &msg, Context &ctx)
   const std::string &targetNick = msg.params[1];
   const std::string  reason     = msg.params.size() > 2 ? msg.params[2] : nick;
 
-  std::map<std::string, Channel *>::iterator it = ctx.channels.find(chanName);
+  ChannelMap::iterator it = ctx.channels.find(chanName);
   if (it == ctx.channels.end())
   {
     client->send(Replies::noSuchChannel(nick, chanName));

@@ -55,7 +55,7 @@ void JoinCommand::_joinChannel(Client *client, const std::string &name, const st
 {
   const std::string &nick = client->info().nickname();
 
-  std::map<std::string, Channel *>::iterator it = ctx.channels.find(name);
+  ChannelMap::iterator it = ctx.channels.find(name);
 
   if (it == ctx.channels.end())
   {
