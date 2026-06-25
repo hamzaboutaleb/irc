@@ -37,7 +37,6 @@ void Client::send(const std::string &msg)
   flushOutput();
 }
 
-// TODO: add _watchingWrite bool to Client to avoid redundant epoll_ctl calls in flushOutput
 void Client::flushOutput()
 {
   while (!_outBuffer.empty())

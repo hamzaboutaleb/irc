@@ -16,7 +16,6 @@ void Context::removeFromChannel(Client *client, Channel *channel)
   }
 }
 
-// TODO: replace with a nick→Client* index in Server for O(log n) lookup
 Client *Context::findClient(const std::string &nick) const
 {
   std::map<int, Client *>::const_iterator it;

@@ -33,8 +33,6 @@ void JoinCommand::_sendJoinReplies(Client *client, Channel *channel) const
   else
     client->send(Replies::topic(nick, channel->name(), channel->topic()));
 
-  // TODO: split names into chunks of ~400 chars to handle large channels (multiple 353 replies)
-  // build names list
   std::string names;
   const std::map<Client*, ChannelRole> &members = channel->members();
   std::map<Client*, ChannelRole>::const_iterator it;
