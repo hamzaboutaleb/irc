@@ -28,7 +28,7 @@ Client *Context::findClient(const std::string &nick) const
   }
   return NULL;
 }
-//human made aw9
+
 void  Context::assignOp(Channel *channel)
 {
     int has_op = 0;
