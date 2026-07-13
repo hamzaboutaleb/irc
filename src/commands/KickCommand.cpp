@@ -63,4 +63,5 @@ void KickCommand::execute(Client *client, const Message &msg, Context &ctx)
 
   channel->broadcast(kickMsg, NULL);
   ctx.removeFromChannel(target, channel);
+  
 }

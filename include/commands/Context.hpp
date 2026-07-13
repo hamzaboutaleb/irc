@@ -17,4 +17,6 @@ struct Context
 
   Client *findClient(const std::string &nick) const;
   void    removeFromChannel(Client *client, Channel *channel);
+  void    assignOp(Channel *channel);
 };
+

@@ -72,12 +72,18 @@ void Server::_loop(bool &running)
       if (_pendingRemoval.count(fd))
         continue;
       if (fd == _listener->fd())
+      {
         _acceptClient();
-      else if (ev & (EPOLLHUP | EPOLLERR))
+        continue;
+      }
+      if (ev & (EPOLLHUP | EPOLLERR))
+      {
         _scheduleRemoval(fd);
-      else if (ev & EPOLLIN)
+        continue;
+      }
+      if (ev & EPOLLIN)
         _handleRead(fd);
-      else if (ev & EPOLLOUT)
+      if (ev & EPOLLOUT)
         _handleWrite(fd);
     }
     _flushRemovals();
