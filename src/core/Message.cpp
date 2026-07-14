@@ -2,7 +2,7 @@
 #include <cctype>
 #include <ostream>
 
-static std::string toUpper(const std::string& s)
+static std::string toUpper(const std::string &s)
 {
   std::string result = s;
   for (size_t i = 0; i < result.size(); ++i)
@@ -10,14 +10,14 @@ static std::string toUpper(const std::string& s)
   return result;
 }
 
-static size_t skipSpaces(const std::string& s, size_t i)
+static size_t skipSpaces(const std::string &s, size_t i)
 {
   while (i < s.size() && s[i] == ' ')
     ++i;
   return i;
 }
 
-static std::string readUntilSpace(const std::string& s, size_t& i)
+static std::string readUntilSpace(const std::string &s, size_t &i)
 {
   size_t start = i;
   while (i < s.size() && s[i] != ' ')
@@ -25,10 +25,10 @@ static std::string readUntilSpace(const std::string& s, size_t& i)
   return s.substr(start, i - start);
 }
 
-Message Message::parse(const std::string& raw)
+Message Message::parse(const std::string &raw)
 {
   Message msg;
-  size_t  i = 0;
+  size_t i = 0;
 
   if (raw.empty())
     return msg;
@@ -59,14 +59,4 @@ Message Message::parse(const std::string& raw)
   }
 
   return msg;
-}
-
-std::ostream& operator<<(std::ostream& os, const Message& msg)
-{
-  os << "prefix=[" << msg.prefix << "] "
-     << "cmd=[" << msg.command << "] "
-     << "params(" << msg.params.size() << "):";
-  for (size_t i = 0; i < msg.params.size(); ++i)
-    os << " [" << msg.params[i] << "]";
-  return os;
 }

@@ -23,6 +23,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(BUILD_DIR)
+	@rm -f $(NAME)
 
 re: fclean all
 
