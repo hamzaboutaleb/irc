@@ -116,7 +116,18 @@ void Server::_handleRead(int fd)
   if (result.status == IO_OK)
     _processClient(fd, buf, result.bytes);
   else if (result.status == IO_CLOSED || result.status == IO_ERROR)
+  {
+    if (result.status == IO_CLOSED && _clients[fd]->inBuffer().size() <= MAX_MSG_LENGTH)
+    {
+      Buffer &buffer = _clients[fd]->inBuffer();
+      if (buffer.size() > 0)
+      {
+        Message msg = Message::parse(buffer.extractRemaining());
+        _handler.handle(_clients[fd], msg);
+      }
+    }
     _scheduleRemoval(fd);
+  }
 }
 
 void Server::_processClient(int fd, const char *data, size_t len)

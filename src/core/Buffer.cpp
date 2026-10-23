@@ -18,6 +18,13 @@ std::string Buffer::extractMessage()
   return message;
 }
 
+std::string Buffer::extractRemaining()
+{
+  std::string message = _data;
+  _data.clear();
+  return message;
+}
+
 size_t Buffer::size() const
 {
   return _data.size();

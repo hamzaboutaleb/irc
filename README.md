@@ -57,6 +57,11 @@ JOIN #general
 PRIVMSG #general :hello everyone
 ```
 
+Each command is normally terminated by pressing Enter. If a client sends EOF
+(for example, Ctrl+D in `nc`) after typing a final command without its
+terminating CRLF, the server processes that final buffered command before
+closing the client connection.
+
 Or with any standard IRC client, pointing it at `127.0.0.1:<port>` with the server password set to `<password>`.
 
 ### Test bot
