@@ -7,7 +7,7 @@ Usage:
     python3 irc_bot.py <host> <port> <password> <nickname> <channel>
 
 Example:
-    python3 irc_bot.py 127.0.0.1 6667 mypass BotName #general
+    python3 irc_bot.py 127.0.0.1 6667 mypass BotName &general
 """
 
 import socket
@@ -64,7 +64,7 @@ class IRCBot:
             self.join_channel(self.channel)
             return
 
-        # Parse PRIVMSG lines: :nick!user@host PRIVMSG #chan :message
+        # Parse PRIVMSG lines: :nick!user@host PRIVMSG &chan :message
         if "PRIVMSG" in line:
             try:
                 prefix, rest = line[1:].split(" PRIVMSG ", 1)
@@ -74,7 +74,7 @@ class IRCBot:
                 return
 
             # Reply target: channel if it's a channel, else the sender directly
-            reply_to = target if target.startswith("#") else sender
+            reply_to = target if target.startswith("&") else sender
 
             self.handle_command(sender, reply_to, message.strip())
 

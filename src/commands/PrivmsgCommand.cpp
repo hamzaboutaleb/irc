@@ -74,7 +74,7 @@ void PrivmsgCommand::execute(Client *client, const Message &msg, Context &ctx)
     client->send(Replies::noSuchNick(nick, target));
     return;
   }
-  if (target[0] == '#')
+  if (target[0] == '&')
     _toChannel(client, target, text, ctx);
   else
     _toClient(client, target, text, ctx);

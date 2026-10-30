@@ -7,12 +7,12 @@ bool JoinCommand::_isValidChannelName(const std::string &name) const
 {
   if (name.size() < 2 || name.size() > 50)
     return false;
-  if (name[0] != '#')
+  if (name[0] != '&')
     return false;
   for (size_t i = 1; i < name.size(); ++i)
   {
     unsigned char c = static_cast<unsigned char>(name[i]);
-    if (c == '\0' || c < 32 || c == ' ' || c == ',' || c == '\007')
+    if (c == '\0' || c == '\r' || c == '\n' || c == ' ' || c == ',' || c == '\007')
       return false;
   }
   return true;

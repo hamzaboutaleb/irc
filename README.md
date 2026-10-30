@@ -53,8 +53,8 @@ nc 127.0.0.1 6667
 PASS mypass
 NICK hamza
 USER hamza 0 * :Hamza Boutaleb
-JOIN #general
-PRIVMSG #general :hello everyone
+JOIN &general
+PRIVMSG &general :hello everyone
 ```
 
 Or with any standard IRC client, pointing it at `127.0.0.1:<port>` with the server password set to `<password>`.
@@ -64,7 +64,7 @@ Or with any standard IRC client, pointing it at `127.0.0.1:<port>` with the serv
 `irc_bot.py` is a small Python IRC client that connects to the server and replies to a few basic commands (`!ping`, `!hello`, `!time`, `!echo <text>`). Useful for quick manual testing:
 
 ```sh
-python3 irc_bot.py 127.0.0.1 6667 mypass BotName #general
+python3 irc_bot.py 127.0.0.1 6667 mypass BotName &general
 ```
 
 ## Resources
